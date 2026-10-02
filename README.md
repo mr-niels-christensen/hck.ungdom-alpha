@@ -52,7 +52,7 @@ For at minimere antallet af leverandører og sikre 0 kr. i drift:
 | :--- | :--- | :--- |
 | **Hosting & CI/CD** | **GitHub Pages** | Gratis statisk hosting af Single Page App / PWA direkte fra dit eksisterende GitHub-repo. Bygges og deployes automatisk via GitHub Actions ved `git push`. |
 | **Database & API** | **Supabase (EU - Frankfurt)** | Gratis managed PostgreSQL. Klienten taler direkte med Supabase via HTTPS/WebSockets uden separat backend-server. Du kan rette løb og rå data direkte i Supabases web-tabel. |
-| **Frontend Framework** | **Vite + React (eller Svelte)** | Letvægts, lynhurtig mobilgrænseflade, der fungerer offline-first som PWA på forældrenes telefoner. |
+| **Frontend Framework** | **Vite + React (TypeScript)** | Letvægts, lynhurtig mobilgrænseflade med **Hash-routing** (for deep-linking uden 404-fejl på GitHub Pages) og **PWA** (kan installeres på startskærm med offline caching). |
 
 ---
 
@@ -66,12 +66,14 @@ For at minimere antallet af leverandører og sikre 0 kr. i drift:
 
 ## 📋 Status & Næste Skridt
 
-Se [DECISIONS.md](file:///Users/nhc/hck.ungdom-alpha/DECISIONS.md) for uddybende begrundelser for alle trufne valg (ADR-001 til ADR-007).
+Se [DECISIONS.md](file:///Users/nhc/hck.ungdom-alpha/DECISIONS.md) for uddybende begrundelser for alle trufne valg (ADR-001 til ADR-008).
 
 - [x] Oprettet indledende projektomfang og afgrænset mod Holdsport (ADR-001, ADR-005)
 - [x] Besluttet adgangs- og identitetsmodel uden adgangskoder og uden admin-UI (ADR-002)
 - [x] Afklaret rytterklasser og samkørselsbehov (ADR-004)
 - [x] Valgt teknologistak: GitHub Pages + Supabase EU (ADR-003, ADR-006, ADR-007)
-- [ ] **Næste skridt**: Definere datamodellen (tabeller for løb, tilkendegivelser/samkørsel og vidensbase)
-- [ ] Opsætte boilerplate-projektet i dette repository (Vite + styling + PWA-manifest)
-- [ ] Konfigurere GitHub Action til automatisk deploy til GitHub Pages
+- [x] Fastlagt frontend-arkitektur: React + TS + Hash-routing + PWA (ADR-008)
+- [ ] **Klar til ny samtale**:
+  1. Flyt mappe til `~/git/hck.ungdom-alpha` og åbn workspace der
+  2. Definere datamodellen (Supabase skema for løb, tilkendegivelser/noter og vidensartikler)
+  3. Scaffolde React + Vite projektet og GitHub Actions deploy workflow

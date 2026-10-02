@@ -90,6 +90,16 @@ Dette dokument sporer centrale valg, fravalg og begrundelser for projektet for a
 
 ---
 
+## ADR-008: Frontend-arkitektur (React, Hash-routing & PWA)
+
+* **Status**: Godkendt
+* **Beslutning**:
+  1. **Framework**: React + TypeScript bygget med Vite.
+  2. **Routing**: Hash-routing (`/#/lob`, `/#/guide`). Giver deep-linking (f.eks. deling af direkte links til et løb i Messenger) og browser-navigation ("tilbage"-knap) uden at risikere 404-fejl på GitHub Pages' statiske hosting.
+  3. **PWA (Progressive Web App)**: Udstyres med webmanifest og service worker. Giver forældrene mulighed for at installere appen på startskærmen på iPhone/Android uden om App Store, med "standalone" app-oplevelse og offline caching til stævnepladser med ringe mobildækning.
+
+---
+
 ## 📌 Beslutningskø Status
 
 Alle indledende afklaringspunkter er nu behandlet og godkendt:
@@ -98,3 +108,4 @@ Alle indledende afklaringspunkter er nu behandlet og godkendt:
 2. **[AFKLARET] Tråd 2: Autentificering, Identifikation og Nul-Admin** (ADR-002)
 3. **[AFKLARET] Tråd 3: Løbskoordinering & Rytterklasser** (Fleksibel klasseangivelse)
 4. **[AFKLARET] Tråd 4: Teknologistak & Cloud-valg** (ADR-003, ADR-006, ADR-007)
+5. **[AFKLARET] Tråd 5: Frontend Routing & PWA** (ADR-008)
