@@ -75,4 +75,5 @@ Se [DECISIONS.md](file:///Users/nhc/git/hck.ungdom-alpha/DECISIONS.md) for uddyb
 - [x] Fastlagt frontend-arkitektur: React + TS + Hash-routing + PWA (ADR-008)
 - [x] Flyttet mappe til `~/git/hck.ungdom-alpha` og åbnet workspace
 - [x] Scaffolde React + Vite projektet og GitHub Actions deploy workflow
+- [x] Fastlagt UX spec & fat-marker skitser (se [docs/UX_SPEC.md](docs/UX_SPEC.md))
 - [ ] Definere datamodellen (Supabase skema for løb, tilkendegivelser/noter og vidensartikler - tages senere)
