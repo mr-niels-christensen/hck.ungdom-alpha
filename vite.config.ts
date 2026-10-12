@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -13,7 +14,7 @@ export default defineConfig({
       manifest: {
         name: 'HCK Ungdom - Løb & Håndbog',
         short_name: 'HCK Ungdom',
-        description: 'Løbsoverblik og forældrehåndbog for Holte Cykel-Klub Ungdom',
+        description: 'Løbsoverblik og forældrehåndbog for Hvidovre Cykle Klub Ungdom',
         theme_color: '#0f172a',
         background_color: '#0b0f19',
         display: 'standalone',
@@ -28,5 +29,10 @@ export default defineConfig({
         ]
       }
     })
-  ]
+  ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+  }
 })
