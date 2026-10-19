@@ -13,6 +13,7 @@ import { getUrlParam } from '../utils/urlParams.ts';
 
 interface ProfileContextType {
   profile: UserProfile | null;
+  isPinVerified: boolean;
   isOnboarded: boolean;
   saveProfile: (
     newProfile: UserProfile,
@@ -117,6 +118,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     <ProfileContext.Provider
       value={{
         profile,
+        isPinVerified,
         isOnboarded,
         saveProfile,
         resetAll,

@@ -7,13 +7,14 @@ export const STORAGE_KEYS = {
   CLUB_PIN: 'hck_club_pin_v1',
 } as const;
 
+// Ordered youngest to oldest; the onboarding dropdown renders in this order.
 export const RIDER_CLASSES: { value: RiderClass; label: string }[] = [
+  { value: 'U9', label: 'U9 (Under 9 år)' },
   { value: 'U11', label: 'U11 (Under 11 år)' },
   { value: 'U13', label: 'U13 (Under 13 år)' },
   { value: 'U15', label: 'U15 (Under 15 år)' },
   { value: 'U17', label: 'U17 (Under 17 år)' },
   { value: 'U19', label: 'U19 (Junior)' },
-  { value: 'U9', label: 'U9 (Under 9 år)' },
 ];
 
 export const TEST_PERSONAS: TestPersona[] = [
