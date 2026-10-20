@@ -7,6 +7,7 @@ Dette dokument fastlægger den samlede brugeroplevelse, skærmopbygning og inter
 ## 🧭 Overordnede Principper & Shell
 
 * **Mobil-først**: 90% af brugen sker på smartphones på farten eller på stævnepladser.
+* **Visuel identitet & touch-venlighed**: Hvidovre Cykle Klubs trøjefarve (`#F3434D`) anvendes som primær accent mod en rolig, lys baggrund. Alle interaktive elementer designes med touch-flader på mindst 44px, så appen er nem at betjene med én hånd på stævnepladsen.
 * **Nul login-friktion**: Ingen adgangskoder eller oprettelsesformularer. Fælles klub-PIN + selvangivet navn gemt i browseren (`localStorage`).
 * **Fuld 'Tilbage'-knap understøttelse (Back-button)**: Systemets og browserens tilbage-funktion (hardware-tilbage på Android, browserhistorik på desktop og navigation/swipe på mobil) skal virke 100% konsistent. Hash-routing sikrer, at man altid kan trykke "tilbage" fra et specifikt løb (`/#/lob/:id`), et tip (`/#/tips/:id`) eller profil-modalen for at vende tilbage til oversigten.
 * **Ingen kuratering eller unødig administration**: Ingen Sportstiming-links, rute-links, eksterne tilmeldingsfrister eller redaktionelle tags, som nogen skal vedligeholde.

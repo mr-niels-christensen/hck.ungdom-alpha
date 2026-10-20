@@ -100,6 +100,17 @@ Dette dokument sporer centrale valg, fravalg og begrundelser for projektet for a
 
 ---
 
+## ADR-009: Styling-strategi og visuel identitet
+
+* **Status**: Godkendt
+* **Kontekst**: Behov for en genkendelig, enkel og vedligeholdelsesvenlig brugerflade optimeret til forældre på mobilen.
+* **Beslutning**:
+  1. **Enkelthed frem for tooling**: Ren Vanilla CSS samlet centralt i `src/index.css`. Ingen CSS-in-JS, Tailwind eller separate CSS-moduler pr. komponent, så koden forbliver letlæselig og nem at vedligeholde.
+  2. **Klubidentitet**: Hvidovre Cykle Klubs trøjefarve `#F3434D` (rød med hvid tekst) anvendes som primær accentfarve (fremhævede CTA'er, fokusmarkeringer og overskriftsmarkører) på en rolig, lys baggrund (`#ffffff` / `#f8fafc`).
+  3. **Mobil-først & touch-venlighed**: Formularkomponenter og visninger dimensioneres primært til smartphones (`max-width: 460px`) med touch-targets på min. 44px i overensstemmelse med brug på stævnepladser.
+
+---
+
 ## 📌 Beslutningskø Status
 
 Alle indledende afklaringspunkter er nu behandlet og godkendt:
@@ -109,3 +120,5 @@ Alle indledende afklaringspunkter er nu behandlet og godkendt:
 3. **[AFKLARET] Tråd 3: Løbskoordinering & Rytterklasser** (Fleksibel klasseangivelse)
 4. **[AFKLARET] Tråd 4: Teknologistak & Cloud-valg** (ADR-003, ADR-006, ADR-007)
 5. **[AFKLARET] Tråd 5: Frontend Routing & PWA** (ADR-008)
+6. **[AFKLARET] Tråd 6: Styling-strategi & Visuel Identitet** (ADR-009)
+
