@@ -1,22 +1,137 @@
 :root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --hck-red: #F3434D;
+  --hck-red-hover: #d9323c;
+  --hck-red-light: #fff0f1;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --border-ui: #d1d5db;
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
-  color: #213547;
-  background-color: #ffffff;
+  color: var(--text-main);
+  background-color: var(--bg-page);
 }
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem;
 }
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+#root { width: 100%; max-width: 460px; }
+
+.onboarding {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
+
+.onboarding h1 {
+  font-size: 1.35rem;
+  margin: 0 0 0.5rem 0;
+  border-left: 4px solid var(--hck-red);
+  padding-left: 0.5rem;
+}
+
+.onboarding label, .onboarding legend {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.onboarding input[type="text"],
+.onboarding input[type="password"],
+.onboarding select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-ui);
+  border-radius: 6px;
+  background-color: #fff;
+  color: var(--text-main);
+}
+
+.onboarding input:focus-visible, .onboarding select:focus-visible {
+  outline: 2px solid var(--hck-red);
+  border-color: var(--hck-red);
+}
+
+.onboarding select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  padding-right: 1.75rem;
+}
+
+.onboarding fieldset {
+  border: 1px solid var(--border-ui);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin: 0.5rem 0 0.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rider-row { display: flex; gap: 0.5rem; align-items: center; }
+.rider-row input { flex: 1; min-width: 0; }
+.rider-row select { flex: 0 0 5.5rem; }
+.rider-row button {
+  margin-left: 0.4rem;
+  min-width: 40px;
+  min-height: 44px;
+  background: transparent;
+  border: 1px solid var(--border-ui);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+#add-rider {
+  min-height: 42px;
+  background: transparent;
+  border: 1px dashed var(--border-ui);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.form-error {
+  background-color: var(--hck-red-light);
+  color: #b91c1c;
+  border-left: 3px solid var(--hck-red);
+  padding: 0.6rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+
+#save-profile {
+  min-height: 48px;
+  background-color: var(--hck-red);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+#save-profile:hover:not(:disabled) { background-color: var(--hck-red-hover); }
+#save-profile:disabled { opacity: 0.6; cursor: not-allowed; }
