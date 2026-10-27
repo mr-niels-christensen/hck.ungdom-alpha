@@ -80,12 +80,10 @@ describe('OnboardingForm (Flow 1)', () => {
 describe('App onboarding gate', () => {
   beforeEach(() => localStorage.clear());
 
-  it('shows the form, then the main screen after save, and the form again after reset', async () => {
+  it('shows the onboarding form when not onboarded, and shell after save', async () => {
     render(<App />);
     fillValid(DEFAULT_CLUB_PIN);
     submit();
-    expect(await screen.findByRole('heading', { name: 'Hej Mette' })).toBeInTheDocument();
-    fireEvent.click(screen.getByTestId('reset-profile'));
-    expect(screen.getByRole('heading', { name: 'Velkommen til HCK Ungdom' })).toBeInTheDocument();
+    expect(await screen.findByTestId('app-shell')).toBeInTheDocument();
   });
 });

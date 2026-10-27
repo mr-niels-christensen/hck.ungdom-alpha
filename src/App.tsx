@@ -1,30 +1,32 @@
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ProfileProvider, useProfile } from './context/ProfileContext.tsx';
 import { OnboardingForm } from './components/OnboardingForm.tsx';
+import { AppShell, RacesPlaceholder, TipsPlaceholder } from './components/layout/AppShell.tsx';
 
 /**
- * Temporary main screen: shows Flow 1 until the user is onboarded,
- * then a minimal profile summary with a reset button (for manual testing).
+ * Main application routes and authentication gate.
+ * Shows Flow 1 (OnboardingForm) when not onboarded, otherwise AppShell with routes.
  */
 function AppContent() {
-  const { profile, isOnboarded, resetAll } = useProfile();
+  const { isOnboarded } = useProfile();
   if (!isOnboarded) return <OnboardingForm />;
   return (
-    <main>
-      <h1>Hej {profile?.parentName}</h1>
-      <ul>
-        {profile?.children.map((c) => (
-          <li key={c.id}>{c.name} ({c.riderClass})</li>
-        ))}
-      </ul>
-      <button type="button" data-testid="reset-profile" onClick={resetAll}>Nulstil</button>
-    </main>
+    <Routes>
+      <Route element={<AppShell />}>
+        <Route path="/lob" element={<RacesPlaceholder />} />
+        <Route path="/tips" element={<TipsPlaceholder />} />
+        <Route path="*" element={<Navigate to="/lob" replace />} />
+      </Route>
+    </Routes>
   );
 }
 
 export function App() {
   return (
     <ProfileProvider>
-      <AppContent />
+      <HashRouter>
+        <AppContent />
+      </HashRouter>
     </ProfileProvider>
   );
 }

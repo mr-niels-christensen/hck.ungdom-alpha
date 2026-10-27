@@ -58,7 +58,7 @@ export function OnboardingForm({ onSaved }: OnboardingFormProps) {
   };
 
   return (
-    <form className="onboarding" onSubmit={handleSubmit} noValidate>
+    <form className="onboarding" data-testid="onboarding-form" onSubmit={handleSubmit} noValidate>
       <h1>Velkommen til HCK Ungdom</h1>
 
       {!isPinVerified && (
