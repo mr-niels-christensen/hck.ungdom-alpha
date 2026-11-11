@@ -47,7 +47,7 @@
   - Opret placeholder-komponenter for Løbsplan og Tips&tricks.
   - Forbind `HashRouter` i `src/App.tsx` med ruter for `/lob` og `/tips` og redirect fra `*`.
   - Opret test for shell rendering og rutenavigation.
-- [ ] **Deltrin 2: Shell styling og mobil responsivitet i `index.css`**
+- [x] **Deltrin 2: Shell styling og mobil responsivitet i `index.css`**
   - Tilføj CSS for topbar, main scroll-område, fast bundnavigation (`.shell-header`, `.shell-nav`, `.shell-content`).
   - Sikr min. 44px touch-flader, aktiv fane-indikator i `#F3434D` og mobil safe-area.
 - [ ] **Deltrin 3: Profil-modal fra Topbar**
@@ -69,10 +69,10 @@
 | Routing & fane-skift | Automatiserede vitest tests | Bestået (src/test/AppShell.test.tsx) |
 | Onboarding isoleret | Test for `!isOnboarded` | Bestået (src/test/OnboardingForm.test.tsx) |
 | Profilmodal åbn/luk | Test af klik på profil-knap | Afventer Deltrin 3 |
-| Touch target >= 44px | CSS-kontrol og visuel inspektion | Afventer Deltrin 2 |
+| Touch target >= 44px | CSS-kontrol og visuel inspektion | Bestået (min 44px på profil-knap, 52px på nav-links) |
 | Lint & TypeScript | `npm run lint` & `npm run build` | Bestået (0 errors, build succes) |
 
 ## Status og overdragelse
-- Senest godkendte deltrin: Deltrin 1 gennemført og klar til review
-- Aktuelt trin / næste handling: Brugergodkendelse af Deltrin 1, derefter Deltrin 2 (Styling og mobil-responsivitet)
+- Senest godkendte deltrin: Deltrin 1 godkendt og committet af bruger
+- Aktuelt trin / næste handling: Deltrin 2 gennemført og klar til review; afventer godkendelse før Deltrin 3
 - Kendte problemer og udeståender: Ingen
