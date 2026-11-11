@@ -4,6 +4,40 @@ Dette dokument sporer centrale valg, fravalg og begrundelser for projektet for a
 
 ---
 
+## 📌 Beslutningskø Status
+
+Tråde markeres `[ÅBEN]` eller `[AFKLARET]` (find åbne med `grep -n "^\*\*\[ÅBEN\]" DECISIONS.md`). Hver åben tråd angiver, hvilken opgave i README → *Status & Næste Skridt* der afgør den. Når en tråd afgøres, skrives beslutningen som ADR, tråden markeres `[AFKLARET]`, og den fjernes fra README's åbne beslutninger.
+
+### Åbne tråde
+
+### Tråd 7: Adgang & datamodel
+
+**[ÅBEN]** · Afgøres i: opgave 3 (Adgang & datamodel). Opstået ved arkitekturreview 2026-11-11.
+
+1. **Klub-PIN beskytter ikke data**: PIN'en (`VITE_CLUB_PIN`, fallback i `src/constants/config.ts`) bygges ind i det offentlige JS-bundle på GitHub Pages, og Supabase anon-nøglen vil også ligge der. Uden server-side tjek kan alle med nøglen læse og skrive tabellerne direkte, uanset PIN. Holder ADR-002's "holder uvedkommende ude" kun for UI'et? Mulig løsning: PIN tjekkes i Supabase via RLS-politik på en request-header eller via RPC-funktioner, der kræver PIN.
+2. **Persondata om børn**: ADR-002 siger "ingen følsomme persondata" (korrekt i GDPR-forstand: ingen særlige kategorier), men `race_attendance` vil indeholde navne og aldersklasser på mindreårige samt forældrenavne. Uafklaret: opbevaringstid (fx sletning ved sæsonafslutning), hvem i klubben der er dataansvarlig, og hvordan en familie får slettet sine data.
+3. **Identitet for tilkendegivelser**: rækker identificeres med fritekst `parent_name` + `rider_name`. Uden en regel opstår dubletter ("Mads"/"mads " fra to enheder), to forældre til samme barn opretter hver sin række, omdøbning efterlader gamle rækker, og to børn med samme navn i samme klasse kan kollidere. Muligheder:
+   - **A. Én række pr. rytter pr. løb (anbefalet)**: unik nøgle `(race_id, normaliseret rider_name, rider_class)` (trim + små bogstaver). Begge forældre og alle enheder opdaterer samme række (sidst gemte vinder); `parent_name` gemmes som "senest opdateret af". Ingen ny tabel eller admin. Begrænsninger: børn med samme navn og klasse skelnes manuelt (fx "Emil H."); omdøbning efterlader gamle rækker.
+   - **B. Én række pr. forælder + rytter**: som UX_SPEC antyder. Simpelst, men giver dubletter ved to forældre og stavevarianter.
+   - **C. Fælles rytterregister i Supabase**: `riders`-tabel med stabile id'er, som profilen vælger fra eller opretter i. Løser alle tilfælde, men indfører en central liste over klubbens børn (i modstrid med ADR-002's "ingen central stamdatastyring"), mere persondata og mere UI/kode.
+4. **Supabase-pause**: gratis projekter pauses efter ca. en uge uden trafik, hvilket strider mod "set-and-forget" i lavsæsonen. Valg: acceptér manuel genaktivering hvert forår, eller tilføj en planlagt GitHub Action, der holder projektet aktivt.
+5. **Kilde til løbsdata**: README og ADR-002 nævner `races.json` i Git *eller* Supabase; ADR-007 nævner Supabase Table Editor. Vælg én.
+
+### Afklarede tråde
+
+- **[AFKLARET] Tråd 1: Holdsport & Snitflader** (ADR-001, ADR-005)
+- **[AFKLARET] Tråd 2: Autentificering, Identifikation og Nul-Admin** (ADR-002)
+- **[AFKLARET] Tråd 3: Løbskoordinering & Rytterklasser** (Fleksibel klasseangivelse)
+- **[AFKLARET] Tråd 4: Teknologistak & Cloud-valg** (ADR-003, ADR-006, ADR-007)
+- **[AFKLARET] Tråd 5: Frontend Routing & PWA** (ADR-008)
+- **[AFKLARET] Tråd 6: Styling-strategi & Visuel Identitet** (ADR-009)
+- **[AFKLARET] Tråd 8: Accepterede review-fund** (arkitekturreview 2026-11-11). Følgende ændres bevidst ikke:
+   - *Service worker er allerede aktiv*, selvom shell-arbejdsnotatet kalder den "senere fase": ok, kun dokumentationen rettes (opgave 2).
+   - *`?pin=` bliver stående i adresselinjen*: ok, linket med PIN deles bevidst i klubbens Messenger-gruppe.
+   - *Lint-advarslen `only-export-components`* (hook og provider i samme fil, `ProfileContext.tsx`): ok, almindeligt mønster, der kun påvirker fast refresh under udvikling.
+
+---
+
 ## ADR-001: Fokusér på to adskilte kernebehov (Løbsplan & Viden)
 
 * **Status**: Godkendt
@@ -108,17 +142,4 @@ Dette dokument sporer centrale valg, fravalg og begrundelser for projektet for a
   1. **Enkelthed frem for tooling**: Ren Vanilla CSS samlet centralt i `src/index.css`. Ingen CSS-in-JS, Tailwind eller separate CSS-moduler pr. komponent, så koden forbliver letlæselig og nem at vedligeholde.
   2. **Klubidentitet**: Hvidovre Cykle Klubs trøjefarve `#F3434D` (rød med hvid tekst) anvendes som primær accentfarve (fremhævede CTA'er, fokusmarkeringer og overskriftsmarkører) på en rolig, lys baggrund (`#ffffff` / `#f8fafc`).
   3. **Mobil-først & touch-venlighed**: Formularkomponenter og visninger dimensioneres primært til smartphones (`max-width: 460px`) med touch-targets på min. 44px i overensstemmelse med brug på stævnepladser.
-
----
-
-## 📌 Beslutningskø Status
-
-Alle indledende afklaringspunkter er nu behandlet og godkendt:
-
-1. **[AFKLARET] Tråd 1: Holdsport & Snitflader** (ADR-001, ADR-005)
-2. **[AFKLARET] Tråd 2: Autentificering, Identifikation og Nul-Admin** (ADR-002)
-3. **[AFKLARET] Tråd 3: Løbskoordinering & Rytterklasser** (Fleksibel klasseangivelse)
-4. **[AFKLARET] Tråd 4: Teknologistak & Cloud-valg** (ADR-003, ADR-006, ADR-007)
-5. **[AFKLARET] Tråd 5: Frontend Routing & PWA** (ADR-008)
-6. **[AFKLARET] Tråd 6: Styling-strategi & Visuel Identitet** (ADR-009)
 

@@ -4,6 +4,8 @@ Disse regler gælder for AI-agenter, der arbejder i dette repository, uanset mod
 
 ## Supporting instructions
 
+Ved ny session: start i `README.md` → *Status & Næste Skridt* (åbne beslutninger og næste opgaver i rækkefølge); læs åbne tråde i `DECISIONS.md` og den aktive arbejdsfil under `docs/agent/work/`. Hold disse tre steder ajour, når opgaver afsluttes eller beslutninger træffes.
+
 For non-trivial tasks, use:
 @docs/agent/WORK_TEMPLATE.md
 

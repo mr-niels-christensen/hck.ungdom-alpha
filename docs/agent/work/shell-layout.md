@@ -59,6 +59,9 @@
 - [ ] **Deltrin 3b: Redigeringstilstand i `OnboardingForm`**
   - Anden overskrift og knaptekst ved redigering af eksisterende profil; test herfor.
   - Fokus flyttes ind i profilmodalen, når den åbnes; test herfor.
+  - Lange forældrenavne i topbaren afkortes med "…", og klubnavnet holdes på én linje (fund fra arkitekturreview 2026-11-11).
+- [ ] **Afslutning af shell-arbejdet**
+  - Manuel kontrol af bundnavigation og safe-area (`env(safe-area-inset-bottom)`) på iPhone i standalone-tilstand; kan ikke verificeres i headless Chrome.
 
 ## Beslutningslog
 | Dato | Beslutning | Begrundelse/konsekvens |
@@ -82,5 +85,5 @@
 
 ## Status og overdragelse
 - Senest godkendte deltrin: Deltrin 2 godkendt og committet (d62f777)
-- Aktuelt trin / næste handling: Deltrin 3a gennemført og klar til review; afventer godkendelse før Deltrin 3b
+- Aktuelt trin / næste handling: Deltrin 3a godkendt og committet (f316bba); test-id'er i `OnboardingForm`-tests committet (a3b1d97). Næste: Deltrin 3b.
 - Kendte problemer og udeståender: Ingen

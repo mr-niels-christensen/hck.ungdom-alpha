@@ -66,7 +66,28 @@ For at minimere antallet af leverandører og sikre 0 kr. i drift:
 
 ## 📋 Status & Næste Skridt
 
+> **Startpunkt** for både mennesker og agenter: åbne beslutninger og næste opgaver i rækkefølge. Detaljer står ét sted: *hvorfor* og åbne arkitekturspørgsmål i `DECISIONS.md`, *hvordan* i den aktive arbejdsfil under `docs/agent/work/`.
+
 Se [DECISIONS.md](file:///Users/nhc/git/hck.ungdom-alpha/DECISIONS.md) for uddybende begrundelser for alle trufne valg (ADR-001 til ADR-008).
+
+### Åbne beslutninger
+
+- **Tråd 7: Adgang & datamodel**: PIN beskytter ikke data, persondata og opbevaring, identitet for tilkendegivelser, Supabase-pause, kilde til løbsdata. Se [DECISIONS.md → Tråd 7](DECISIONS.md#tråd-7-adgang--datamodel). Afgøres i opgave 3.
+
+### Næste opgaver (i rækkefølge)
+
+1. **Shell: Deltrin 3b og afslutning** → [docs/agent/work/shell-layout.md](docs/agent/work/shell-layout.md)
+2. **Oprydning**
+   - Kør tests og lint i CI før deploy; brug `node-version-file: .nvmrc`.
+   - Fjern ubrugt `lucide-react`; flyt `vite-plugin-pwa` til devDependencies (behold `@supabase/supabase-js`).
+   - Ret doc-inkonsistenser: `/#/guide` → `/#/tips` i ADR-008; markér ADR-003 som erstattet af ADR-007; README nævner kun ADR-001–008 og linker til DECISIONS.md via lokal `file://`-sti; UX_SPEC nævner `pinVerified` i localStorage (koden gemmer PIN'en og tjekker den igen); shell-arbejdsnotatet kalder service worker "senere fase", men den er allerede aktiv.
+3. **Adgang & datamodel** (kun dokumentation; høj risiko jf. AGENTS.md): afgør Tråd 7 som nye ADR'er og fastlæg Supabase-tabeller inkl. RLS.
+4. **Server-side PIN-tjek** (kræver Tråd 7 afklaret): `pinService` tjekker mod Supabase; PIN-tilstand i tre trin (ukendt/gyldig/ugyldig), så en gemt PIN stoles på ved start, og offline-start ikke viser onboarding.
+5. **Flow 2: Løbsplan** (kræver Tråd 7 afklaret): læs løb fra Supabase; afgør her, om løbsdata skal kunne læses offline.
+6. **Flow 3: Tilkendegivelse & samkørsel** (kræver Tråd 7 afklaret): afgør her, om status gemt offline skal sættes i kø.
+7. **Flow 4: Tips&tricks** (kræver Tråd 7 afklaret).
+
+### Gennemført
 
 - [x] Oprettet indledende projektomfang og afgrænset mod Holdsport (ADR-001, ADR-005)
 - [x] Besluttet adgangs- og identitetsmodel uden adgangskoder og uden admin-UI (ADR-002)
@@ -76,4 +97,4 @@ Se [DECISIONS.md](file:///Users/nhc/git/hck.ungdom-alpha/DECISIONS.md) for uddyb
 - [x] Flyttet mappe til `~/git/hck.ungdom-alpha` og åbnet workspace
 - [x] Scaffolde React + Vite projektet og GitHub Actions deploy workflow
 - [x] Fastlagt UX spec & fat-marker skitser (se [docs/UX_SPEC.md](docs/UX_SPEC.md))
-- [ ] Definere datamodellen (Supabase skema for løb, tilkendegivelser/noter og vidensartikler - tages senere)
+- [x] Shell layout, hash-routing, bundnavigation og profilmodal (Deltrin 1–3a, se [docs/agent/work/shell-layout.md](docs/agent/work/shell-layout.md))
