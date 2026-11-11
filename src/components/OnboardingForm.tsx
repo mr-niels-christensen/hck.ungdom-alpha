@@ -71,7 +71,7 @@ export function OnboardingForm({ onSaved, onCancel }: OnboardingFormProps) {
       {!isPinVerified && (
         <>
           <label htmlFor="club-pin">Klub-pinkode</label>
-          <input id="club-pin" name="pin" type="password" autoComplete="off" />
+          <input id="club-pin" name="pin" data-testid="pin-input" type="password" autoComplete="off" />
         </>
       )}
 
@@ -92,6 +92,7 @@ export function OnboardingForm({ onSaved, onCancel }: OnboardingFormProps) {
           <div className="rider-row" key={rider.id}>
             <input
               aria-label={`Rytter ${i + 1} navn`}
+              data-testid={`rider-${i + 1}-name`}
               type="text"
               placeholder="Fornavn"
               value={rider.name}
@@ -99,6 +100,7 @@ export function OnboardingForm({ onSaved, onCancel }: OnboardingFormProps) {
             />
             <select
               aria-label={`Rytter ${i + 1} klasse`}
+              data-testid={`rider-${i + 1}-class`}
               value={rider.riderClass}
               onChange={(e) => updateRider(rider.id, { riderClass: e.target.value as RiderClass })}
             >
@@ -107,7 +109,7 @@ export function OnboardingForm({ onSaved, onCancel }: OnboardingFormProps) {
               ))}
             </select>
             {riders.length > 1 && (
-              <button type="button" aria-label={`Fjern rytter ${i + 1}`} onClick={() => removeRider(rider.id)}>
+              <button type="button" aria-label={`Fjern rytter ${i + 1}`} data-testid={`rider-${i + 1}-remove`} onClick={() => removeRider(rider.id)}>
                 ✕
               </button>
             )}

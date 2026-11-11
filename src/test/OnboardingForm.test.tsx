@@ -10,17 +10,17 @@ const renderForm = (onSaved = vi.fn()) => {
   return onSaved;
 };
 
-const type = (label: string, value: string) =>
-  fireEvent.change(screen.getByLabelText(label), { target: { value } });
+const type = (testId: string, value: string) =>
+  fireEvent.change(screen.getByTestId(testId), { target: { value } });
 
 const submit = () => fireEvent.click(screen.getByTestId('save-profile'));
 
 /** Fills the form with a valid profile (Mette / Sofie U15) and the given PIN. */
 const fillValid = (pin: string) => {
-  type('Klub-pinkode', pin);
-  type('Dit navn (forælder)', ' Mette ');
-  type('Rytter 1 navn', 'Sofie');
-  type('Rytter 1 klasse', 'U15');
+  type('pin-input', pin);
+  type('parent-name-input', ' Mette ');
+  type('rider-1-name', 'Sofie');
+  type('rider-1-class', 'U15');
 };
 
 describe('OnboardingForm (Flow 1)', () => {
@@ -41,13 +41,13 @@ describe('OnboardingForm (Flow 1)', () => {
   });
 
   it.each([
-    ['a wrong PIN', 'Klub-pinkode', 'forkert'],
-    ['a missing parent name', 'Dit navn (forælder)', ''],
-    ['no named rider', 'Rytter 1 navn', ''],
-  ])('shows an error and saves nothing given %s', async (_case, label, value) => {
+    ['a wrong PIN', 'pin-input', 'forkert'],
+    ['a missing parent name', 'parent-name-input', ''],
+    ['no named rider', 'rider-1-name', ''],
+  ])('shows an error and saves nothing given %s', async (_case, testId, value) => {
     const onSaved = renderForm();
     fillValid(DEFAULT_CLUB_PIN);
-    type(label, value);
+    type(testId, value);
     submit();
     expect(await screen.findByRole('alert')).toBeInTheDocument();
     expect(onSaved).not.toHaveBeenCalled();
@@ -56,24 +56,24 @@ describe('OnboardingForm (Flow 1)', () => {
 
   it('adds and removes rider rows', () => {
     renderForm();
-    expect(screen.queryByLabelText('Fjern rytter 1')).toBeNull();
+    expect(screen.queryByTestId('rider-1-remove')).toBeNull();
     fireEvent.click(screen.getByTestId('add-rider'));
-    type('Rytter 2 navn', 'Mads');
-    fireEvent.click(screen.getByLabelText('Fjern rytter 1'));
-    expect(screen.getByLabelText('Rytter 1 navn')).toHaveValue('Mads');
-    expect(screen.queryByLabelText('Rytter 2 navn')).toBeNull();
+    type('rider-2-name', 'Mads');
+    fireEvent.click(screen.getByTestId('rider-1-remove'));
+    expect(screen.getByTestId('rider-1-name')).toHaveValue('Mads');
+    expect(screen.queryByTestId('rider-2-name')).toBeNull();
   });
 
   it('hides the PIN field when a valid PIN is stored', async () => {
     localStorage.setItem(STORAGE_KEYS.CLUB_PIN, DEFAULT_CLUB_PIN);
     renderForm();
-    await waitFor(() => expect(screen.queryByLabelText('Klub-pinkode')).toBeNull());
+    await waitFor(() => expect(screen.queryByTestId('pin-input')).toBeNull());
   });
 
   it('hides the PIN field when a valid PIN is given in the URL', async () => {
     window.location.hash = `#/?pin=${DEFAULT_CLUB_PIN}`;
     renderForm();
-    await waitFor(() => expect(screen.queryByLabelText('Klub-pinkode')).toBeNull());
+    await waitFor(() => expect(screen.queryByTestId('pin-input')).toBeNull());
   });
 });
 
