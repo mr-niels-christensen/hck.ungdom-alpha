@@ -26,6 +26,7 @@
 - Flow 2 & 3: Løbsblokke, tilkendegivelse, samkørsel og Supabase backend-kald.
 - Flow 4: Tips-liste, søgning og oprettelse/redigering af noter.
 - Service worker / offline PWA-caching (tages i senere fase).
+- Luk profilmodal med Escape og scroll-lås af baggrunden (fravalgt af bruger 2026-11-11).
 
 ## Uafklarede spørgsmål
 - Ingen (alle 4 spørgsmål afklaret med brugeren: HashRouter med redirect til /#/lob, fuld skærm for første onboarding, modal med 'Luk ✕' for profil fra topbar, samt enkle placeholders for flow 2 og 4).
@@ -37,7 +38,7 @@
   - Profilmodal åbnes som overlay via en history-post: `navigate(location.pathname, { state: { profileOpen: true } })`. `AppShell` udleder åben/lukket af `location.state?.profileOpen` (ingen lokal state), og "Luk ✕" samt gem lukker med `navigate(-1)`. Dermed lukker systemets/browserens tilbage-knap modalen iht. `docs/UX_SPEC.md`.
 - Genbrugte komponenter/mønstre:
   - `useProfile()` fra `ProfileContext`.
-  - Genbrug af `OnboardingForm` inde i profilmodalen via eksisterende `onSaved`-prop; "Luk ✕" ligger i modal-wrapperen, så der kræves ingen `onCancel`-prop.
+  - Genbrug af `OnboardingForm` inde i profilmodalen via `onSaved` og en ny valgfri `onCancel`-prop, som viser "Luk ✕" inde i formularens kort (vises ikke ved første onboarding).
 - Væsentlige risici eller alternativer:
   - Mobil browser viewport og bottom navigation clash med Safari/Chrome UI: Løses med `env(safe-area-inset-bottom)` og fast bundplacering.
 
@@ -50,13 +51,14 @@
 - [x] **Deltrin 2: Shell styling og mobil responsivitet i `index.css`**
   - Tilføj CSS for topbar, main scroll-område, fast bundnavigation (`.shell-header`, `.shell-nav`, `.shell-content`).
   - Sikr min. 44px touch-flader, aktiv fane-indikator i `#F3434D` og mobil safe-area.
-- [ ] **Deltrin 3a: Profilmodal – åbn/luk og tilbage-knap**
-  - Profilknappen i topbaren tilføjer en history-post (`state.profileOpen`); `AppShell` viser en modal-wrapper med egen "Luk ✕"-knap om `OnboardingForm`.
+- [x] **Deltrin 3a: Profilmodal – åbn/luk og tilbage-knap**
+  - Profilknappen i topbaren tilføjer en history-post (`state.profileOpen`); `AppShell` viser en modal-wrapper om `OnboardingForm`, hvis "Luk ✕"-knap (via `onCancel`) ligger inde i det hvide kort.
   - Gem lukker via eksisterende `onSaved` → `navigate(-1)`; `OnboardingForm` ændres ikke.
   - Overlay-styling i `index.css`.
   - Integrationstest: åbn, luk med ✕, luk med tilbage, gem opdaterer navnet i topbaren.
 - [ ] **Deltrin 3b: Redigeringstilstand i `OnboardingForm`**
   - Anden overskrift og knaptekst ved redigering af eksisterende profil; test herfor.
+  - Fokus flyttes ind i profilmodalen, når den åbnes; test herfor.
 
 ## Beslutningslog
 | Dato | Beslutning | Begrundelse/konsekvens |
@@ -66,17 +68,19 @@
 | 2026-10-26 | Godkendt: Modal overlay for profilredigering | Bevarer brugerens kontekst i den aktive fane |
 | 2026-10-26 | Godkendt: Placeholders for /#/lob og /#/tips | Muliggør isoleret verifikation af shell |
 | 2026-11-11 | Godkendt: Profilmodal styres via history-state (`location.state.profileOpen`) i stedet for lokal React-state | Lokal state ville ikke lade tilbage-knappen lukke modalen (krav i UX_SPEC). Bevarer overlay over aktiv fane uden nye dependencies. Kendt konsekvens: modalen genåbner ved genindlæsning, mens den er åben, og kan ikke deep-linkes. Alternativ `/#/profil` som selvstændig side fravalgt, da den bryder overlay-beslutningen. |
+| 2026-11-11 | Review af 3a: "Luk ✕" flyttes ind i det hvide kort via `onCancel`-prop på `OnboardingForm`; test skal vise, at Luk ikke gemmer; tests bruger `data-testid` | Erstatter tidligere notat om, at `onCancel` ikke var nødvendig. Undtagelse fra 125-linjersgrænsen godkendt, men ikke brugt (124 linjer). |
+| 2026-11-11 | Fokusflytning ind i modalen tages i 3b; Escape-luk og scroll-lås fravalgt | Brugerens valg efter review af 3a. |
 
 ## Verifikation
 | Krav/risiko | Test eller kontrol | Resultat |
 |---|---|---|
 | Routing & fane-skift | Automatiserede vitest tests | Bestået (src/test/AppShell.test.tsx) |
 | Onboarding isoleret | Test for `!isOnboarded` | Bestået (src/test/OnboardingForm.test.tsx) |
-| Profilmodal åbn/luk | Test af klik på profil-knap | Afventer Deltrin 3 |
+| Profilmodal åbn/luk | Vitest (åbn, Luk ✕ uden at gemme, tilbage-knap, gem, ingen Luk ved første onboarding) + kørende app i Chrome (tilbage/frem, genindlæsning, tomt navn) | Bestået (Deltrin 3a) |
 | Touch target >= 44px | CSS-kontrol og visuel inspektion | Bestået (min 44px på profil-knap, 52px på nav-links) |
 | Lint & TypeScript | `npm run lint` & `npm run build` | Bestået (0 errors, build succes) |
 
 ## Status og overdragelse
 - Senest godkendte deltrin: Deltrin 2 godkendt og committet (d62f777)
-- Aktuelt trin / næste handling: Deltrin 3a (profilmodal åbn/luk via history-state); opdeling i 3a/3b godkendt 2026-11-11
+- Aktuelt trin / næste handling: Deltrin 3a gennemført og klar til review; afventer godkendelse før Deltrin 3b
 - Kendte problemer og udeståender: Ingen

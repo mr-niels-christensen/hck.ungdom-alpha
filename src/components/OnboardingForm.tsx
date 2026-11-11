@@ -11,6 +11,8 @@ const emptyRider = (): Rider => ({ id: newRiderId(), name: '', riderClass: 'U11'
 
 interface OnboardingFormProps {
   onSaved?: () => void;
+  /** When given, a "Luk ✕" button is shown that discards changes and calls this. */
+  onCancel?: () => void;
 }
 
 /**
@@ -19,9 +21,9 @@ interface OnboardingFormProps {
  * of riders, and persists them via ProfileContext. PIN and name are uncontrolled
  * inputs read on submit; only the rider list needs draft state (rows are added/removed).
  * Prefills from an existing profile so the same form works for editing.
- * Calls `onSaved` after a successful save.
+ * Calls `onSaved` after a successful save; `onCancel` (if given) closes without saving.
  */
-export function OnboardingForm({ onSaved }: OnboardingFormProps) {
+export function OnboardingForm({ onSaved, onCancel }: OnboardingFormProps) {
   const { profile, isPinVerified, saveProfile } = useProfile();
   const [riders, setRiders] = useState<Rider[]>(() =>
     profile?.children.length ? profile.children : [emptyRider()]
@@ -59,6 +61,11 @@ export function OnboardingForm({ onSaved }: OnboardingFormProps) {
 
   return (
     <form className="onboarding" data-testid="onboarding-form" onSubmit={handleSubmit} noValidate>
+      {onCancel && (
+        <button type="button" className="form-close" data-testid="profile-modal-close" onClick={onCancel}>
+          Luk ✕
+        </button>
+      )}
       <h1>Velkommen til HCK Ungdom</h1>
 
       {!isPinVerified && (
@@ -72,6 +79,7 @@ export function OnboardingForm({ onSaved }: OnboardingFormProps) {
       <input
         id="parent-name"
         name="parentName"
+        data-testid="parent-name-input"
         type="text"
         placeholder="F.eks. Mette"
         autoComplete="given-name"
